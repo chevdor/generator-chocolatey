@@ -1,9 +1,10 @@
 'use strict';
-var util = require('util');
-var path = require('path');
-var yeoman = require('yeoman-generator');
-var yosay = require('yosay');
-var chalk = require('chalk');
+var util = require('util'),
+path     = require('path'),
+yeoman   = require('yeoman-generator'),
+yosay    = require('yosay'),
+os       = require('os'),
+chalk    = require('chalk');
 
 /* jshint -W106 */
 var proxy = process.env.http_proxy || process.env.HTTP_PROXY || process.env.https_proxy ||
@@ -21,20 +22,20 @@ if (proxy) {
   };
 }
 var GitHubApi = require('github');
-var github = new GitHubApi(githubOptions);
+var github    = new GitHubApi(githubOptions);
 
-// var githubUserInfo = function (name, cb) {
-//   github.user.getFrom({
-//     user: name
-//   }, function (err, res) {
-//     if (err) {
-//       throw new Error(err.message +
-//         '\n\nCannot fetch your github profile. Make sure you\'ve typed it correctly.');
-//     }
-//     cb(JSON.parse(JSON.stringify(res)));
-//     this.log('Hy ' + name);
-//   });
-// };
+var githubUserInfo = function (name, cb) {
+  github.user.getFrom({
+    user: name
+  }, function (err, res) {
+    if (err) {
+      //throw new Error(err.message +
+      //  '\n\nCannot fetch your github profile. Make sure you\'ve typed it correctly.');
+      cb(null);
+    } else
+      cb(JSON.parse(JSON.stringify(res)));
+  });
+};
 
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
@@ -56,13 +57,16 @@ var ChocolateyGenerator = yeoman.generators.Base.extend({
     });
   },
 
-  askFor: function () {
-    var done = this.async();
-
+  bePoliteAndExplain: function() {
     // Have Yeoman greet the user.
     this.log(yosay('Welcome to the marvelous Chocolatey generator!'));
 
-    this.log('I know I am kinda curios and asking a lot but I need those answers to help you out. Hang on!');
+    this.log('I know I am kinda curious and asking a lot but I need those answers to help you out.');
+    this.log('Hang on tight, it won´t be that hard :) The more you tell me, the more I can go ahead and prepare all for you.\n');
+  },
+
+  askForGithubAccount: function () {
+    var done = this.async();
 
     var prompts = [
     {
@@ -70,12 +74,48 @@ var ChocolateyGenerator = yeoman.generators.Base.extend({
       name: 'githubUser',
       message: 'Would you mind telling me your username on GitHub?',
       default: 'someuser'
-    }
-    ,{
+    }];
+    this.prompt(prompts, function (props) {
+      this.githubUser         = props.githubUser;
+      
+      done();
+    }.bind(this));
+  },
+
+  userInfo: function () {
+    var done = this.async();
+
+    githubUserInfo(this.githubUser, function (res) {
+      /*jshint camelcase:false */
+      //console.log(res);
+      if(res){
+        //console.log('Hey hi ' + res.name);
+        this.realname = res.name;
+        this.email = res.email;
+        this.githubUrl = res.html_url;
+      } else {
+        this.realname = 'n/a';
+        this.email = 'n/a';
+        this.githubUrl = 'n/a';
+      }
+      done();
+    }.bind(this));
+  },
+  
+  askFor: function () {
+    var done = this.async();
+    var prompts = [{
       type: 'input',
       name: 'packageTitle',
       message: 'What is the title of your package?',
       default: this.appname
+    },
+    {
+      type: 'list',
+      choices: ['EXE','MSI','MSU', 'Custom'],
+      name: 'packageType',
+      message: 'What kind of package are you making?',
+      default: 'Custom'
     }
     ,{
       type: 'input',
@@ -87,19 +127,15 @@ var ChocolateyGenerator = yeoman.generators.Base.extend({
     }
     ,{
       type: 'input',
-      name: 'packageAuthor',
+      name: 'packageAuthors',
       message: 'What is your name?',
-      default: function(answers){
-          return ''; //this.realname.capitalize();
-      }
+      default: this.realname
     }
     ,{
       type: 'input',
-      name: 'packageOwner',
+      name: 'packageOwners',
       message: 'What is the name of this package´s author?',
-      default: function(answers){
-        return answers['packageAuthor'].capitalize();
-      }
+      default: this.realname
     }
    ,{
       type: 'input',
@@ -108,7 +144,7 @@ var ChocolateyGenerator = yeoman.generators.Base.extend({
       default: '0.1.0.0',
       validate: function(input) {
         var done = this.async();
-        if (input.search(/\d+\.\d+\.\d+\.\d+(\-.*)?/i)!=0) {
+        if (input.search(/\d+\.\d+\.\d+(\.\d+)?(\-.*)?/i)!=0) {
           done("You need to provide a version such as 1.2.3.4 or 1.2.3.4-pre");
           return;
         }
@@ -162,58 +198,58 @@ var ChocolateyGenerator = yeoman.generators.Base.extend({
       default: function(answers){
         return '(C)2014 - ' + answers['packageAuthors'];
       }
-    }
-    ];
+    }];
 
-  
     this.prompt(prompts, function (props) {
-      this.packageName = props.packageName;
-      this.packageTitle = props.packageTitle;
-
-      this.packageVersion   = props.packageVersion;
-      this.packageAuthor    = props.packageAuthor.capitalize();
-      this.packageOwner   = props.packageOwner;
-      this.packageSummary   = props.packageSummary;
-      this.packageDescription   = props.packageDescription;
+      this.githubUser         = props.githubUser;
+      this.packageName        = props.packageName;
+      this.packageTitle       = props.packageTitle;
+      this.packageVersion     = props.packageVersion;
+      this.packageType        = props.packageType;
+      
+      this.packageAuthors     = props.packageAuthors.capitalize();
+      this.packageOwners      = props.packageOwners;
+      
+      this.packageSummary     = props.packageSummary;
+      this.packageDescription = props.packageDescription;
+      this.packageProjectURL  = props.packageProjectURL;
+      this.packageTags        = props.packageTags;
+      
+      this.licenseRequired    = props.licenseRequired;    
+      this.packageLicenseURL  = props.packageLicenseURL;  
       this.packageCopyright   = props.packageCopyright;
-      this.packageProjectURL    = props.packageProjectURL;
-      this.packageTags    = props.packageTags;
-      this.packageLicenseURL    = props.packageLicenseURL;
-
-      this.licenseRequired = props.licenseRequired;      
-    
-    
+      
       done();
     }.bind(this));
 
   },
 
-  // userInfo: function () {
-  //   var done = this.async();
-
-  //   githubUserInfo(this.githubUser, function (res) {
-  //     /*jshint camelcase:false */
-  //     this.realname = res.name;
-  //     this.email = res.email;
-  //     this.githubUrl = res.html_url;
-  //     done();
-  //   }.bind(this));
-  // },
-  
   app: function () {
     this.mkdir('tools');
   },
 
   projectfiles: function () {
-    //this.copy('editorconfig', '.editorconfig');
-    //this.copy('jshintrc', '.jshintrc');
     this.nuspec = this.packageName + '.nuspec';
     this.template('_package.nuspec', this.nuspec);
 
-    execute('echo That´s where we run cpack '  +this.nuspec, function(res){
-      console.log('life is cool: ' + res);
-    })
-  }
+    this.template('_README.md', 'README.md');
+
+    if (this.packageType === 'Custom')
+      this.template('tools/_chocolateyInstallCustom.ps1', 'tools/chocolateyInstall.ps1');
+    else
+      this.template('tools/_chocolateyInstall.ps1', 'tools/chocolateyInstall.ps1');
+    this.template('tools/_chocolateyUninstall.ps1', 'tools/chocolateyUninstall.ps1');
+  },
+
+  pack: function(){
+    if(os.platform()==='win32'){
+      execute('cpak', function(res){
+        console.log('Running cpack: ' + res);
+      })
+    } else
+      this.log('It looks like your platform is ' + os.platform()+ ' and cpack is only supported on win32.');
+      this.log('Your files are ready but I cannot build your chocolatey package.');
+    }
 });
 
 module.exports = ChocolateyGenerator;

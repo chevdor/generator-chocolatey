@@ -5,8 +5,8 @@
     <id><%= packageName %></id>
     <title><%= packageTitle %></title>
     <version><%= packageVersion %></version>
-    <authors><%= packageAuthor %></authors>
-    <owners><%= packageOwner %></owners>
+    <authors><%= packageAuthors %></authors>
+    <owners><%= packageOwners %></owners>
     <summary><%= packageSummary %></summary>
     <description><%= packageDescription %></description>
     <projectUrl><%= packageProjectURL %></projectUrl>
@@ -14,6 +14,7 @@
     <copyright><%= packageCopyright %></copyright>
     <licenseUrl><%= packageLicenseURL %></licenseUrl>
     <requireLicenseAcceptance><%= licenseRequired %></requireLicenseAcceptance>
+
     <!--<iconUrl>https://raw.github.com/__CHOCO_PKG_OWNER_REPO__/master/__NAME__/__NAME__.png</iconUrl>-->
     <!--<dependencies>
       <dependency id="" version="" />
