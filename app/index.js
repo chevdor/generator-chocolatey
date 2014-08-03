@@ -207,7 +207,7 @@ var ChocolateyGenerator = yeoman.generators.Base.extend({
       this.packageVersion     = props.packageVersion;
       this.packageType        = props.packageType;
       
-      this.packageAuthors     = props.packageAuthors.capitalize();
+      this.packageAuthors     = props.packageAuthors;
       this.packageOwners      = props.packageOwners;
       
       this.packageSummary     = props.packageSummary;
