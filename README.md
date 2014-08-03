@@ -53,3 +53,5 @@ If you'd like to get to know Yeoman better and meet some of his friends, [Grunt]
 
 MIT
 
+[![Analytics](https://ga-beacon.appspot.com/UA-53471907-1/chevdor/generator-chocolatey/README)](https://github.com/igrigorik/ga-beacon)
+
