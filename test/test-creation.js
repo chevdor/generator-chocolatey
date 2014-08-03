@@ -20,8 +20,10 @@ describe('chocolatey generator', function () {
   it('creates expected files', function (done) {
     var expected = [
       // add files you expect to exist here.
-      '.jshintrc',
-      '.editorconfig'
+      'README.md',
+      'undefined.nuspec',
+      'tools/chocolateyInstall.ps1',
+      'tools/chocolateyUninstall.ps1'
     ];
 
     helpers.mockPrompt(this.app, {
