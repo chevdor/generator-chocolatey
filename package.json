@@ -1,6 +1,6 @@
 {
   "name": "generator-chocolatey",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "This Yeoman generator helps you get started building chocolatey packages.",
   "license": "MIT",
   "main": "app/index.js",
