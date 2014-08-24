@@ -163,6 +163,13 @@ var ChocolateyGenerator = yeoman.generators.Base.extend({
       message: 'What is the description of the package?',
     }
    ,{
+      type: 'list',
+      choices: ['Asciidoc','Markdown'],
+      name: 'readmeFormat',
+      message: 'What format do you prefer for the readme?',
+      default: 'Asciidoc'
+    },
+    {
       type: 'input',
       name: 'packageProjectURL',
       message: 'What is the project URL of the package?',
@@ -212,6 +219,7 @@ var ChocolateyGenerator = yeoman.generators.Base.extend({
       
       this.packageSummary     = props.packageSummary;
       this.packageDescription = props.packageDescription;
+      this.readmeFormat       = props.readmeFormat;
       this.packageProjectURL  = props.packageProjectURL;
       this.packageTags        = props.packageTags;
       
@@ -231,13 +239,18 @@ var ChocolateyGenerator = yeoman.generators.Base.extend({
   projectfiles: function () {
     this.nuspec = this.packageName + '.nuspec';
     this.template('_package.nuspec', this.nuspec);
-
-    this.template('_README.md', 'README.md');
-
+    
+    if (this.readmeFormat === 'Asciidoc')
+      this.template('_README.adoc', 'README.adoc');
+    
+    if (this.readmeFormat === 'Markdown')
+      this.template('_README.md', 'README.md');
+    
     if (this.packageType === 'Custom')
       this.template('tools/_chocolateyInstallCustom.ps1', 'tools/chocolateyInstall.ps1');
     else
       this.template('tools/_chocolateyInstall.ps1', 'tools/chocolateyInstall.ps1');
+    
     this.template('tools/_chocolateyUninstall.ps1', 'tools/chocolateyUninstall.ps1');
   },
 
