@@ -4,6 +4,8 @@
 Chocolatey is a package manager for Windows. Call it the windows apt-get.
 This project provide a yeoman generator that assists in creating the boring part of a chocolatey package.
 
+You can find the package using npm: https://www.npmjs.org/package/generator-chocolatey
+
 In short you will:
 - Install the generator
 - Call the generator
