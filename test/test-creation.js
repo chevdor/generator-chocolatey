@@ -15,7 +15,7 @@ var testData = {
       
   packageSummary     : 'Some blabla',
   packageDescription : 'Some other blabla',
-  readmeFormat       : 'Asciidoc',
+  readmeFormat       : '',
   packageProjectURL  : 'http://www.someurl.com',
   packageTags        : 'tag1, tag2',
       
