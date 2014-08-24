@@ -1,4 +1,4 @@
-# generator-chocolatey [![Build Status](https://secure.travis-ci.org/chevdor/generator-chocolatey.png?branch=master)](https://travis-ci.org/chevdor/generator-chocolatey)
+# generator-chocolatey [![Build Status](https://secure.travis-ci.org/chevdor/generator-chocolatey.png?branch=master)](https://travis-ci.org/chevdor/generator-chocolatey) [![Donate to help support this development](http://img.shields.io/gittip/_alanshaw.svg)](https://www.gittip.com/chevdor/)
 
 ## Introduction ##
 Chocolatey is a package manager for Windows. Call it the windows apt-get.
