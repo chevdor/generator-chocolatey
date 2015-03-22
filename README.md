@@ -1,5 +1,7 @@
 # generator-chocolatey [![Build Status](https://secure.travis-ci.org/chevdor/generator-chocolatey.png?branch=master)](https://travis-ci.org/chevdor/generator-chocolatey) [![Donate to help support this development](http://img.shields.io/gittip/_alanshaw.svg)](https://www.gittip.com/chevdor/)
 
+[![Join the chat at https://gitter.im/chevdor/generator-chocolatey](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/chevdor/generator-chocolatey?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ## Introduction ##
 Chocolatey is a package manager for Windows. Call it the windows apt-get.
 This project provide a yeoman generator that assists in creating the boring part of a chocolatey package.
