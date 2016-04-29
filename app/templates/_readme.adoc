@@ -1,0 +1,19 @@
+= <%= packageTitle %>
+packageAuthors
+<%= packageVersion %>
+
+== Summary 
+<%= packageSummary %>
+
+You can visit the project page: <%= packageProjectURL %>.
+
+== Description 
+<%= packageDescription %>
+
+== Credits
+=== People
+*<%= packageTitle %>* is developped by <%= packageAuthors %> (<%= githubUrl %>).
+
+=== References
+This package is a https://chocolatey.org/[chocolatey] package
+and it has been generated using http://yeoman.io/[Yeoman].
