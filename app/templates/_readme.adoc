@@ -12,7 +12,7 @@ You can visit the project page: <%= packageProjectURL %>.
 
 == Credits
 === People
-*<%= packageTitle %>* is developped by <%= packageAuthors %> (<%= githubUrl %>).
+*<%= packageTitle %>* is developed by <%= packageAuthors %> (<%= githubUrl %>).
 
 === References
 This package is a https://chocolatey.org/[chocolatey] package

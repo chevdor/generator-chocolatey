@@ -10,7 +10,7 @@ You can visit the project page [here](<%= packageProjectURL %>).
 
 ## Credits
 ### People ###
-**<%= packageTitle %>** is developped by <%= packageAuthors %> ([<%= githubUrl %>](<%= githubUrl %>)).
+**<%= packageTitle %>** is developed by <%= packageAuthors %> ([<%= githubUrl %>](<%= githubUrl %>)).
 
 ### Projects###
 This package is a chocolatey package. You can read more about the chocolatey project at [https://chocolatey.org/](https://chocolatey.org/). It has been generated using [yeoman](http://yeoman.io/).
