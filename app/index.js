@@ -76,6 +76,7 @@ var ChocolateyGenerator = yeoman.generators.Base.extend({
       default: 'someuser'
     }];
     this.prompt(prompts, function (props) {
+      //console.log(props);
       this.githubUser         = props.githubUser;
       
       done();
@@ -142,15 +143,15 @@ var ChocolateyGenerator = yeoman.generators.Base.extend({
       name: 'packageVersion',
       message: 'What is the version of the package?',
       default: '0.1.0.0',
-      // validate: function(input) {
-      //   var done = this.async();
-      //   if (input.search(/\d+\.\d+\.\d+(\.\d+)?(\-.*)?/i)!=0) {
-      //     done("You need to provide a version such as 1.2.3.4 or 1.2.3.4-pre");
-      //     return;
-      //   }
-      //   // Pass the return value in the done callback
-      //   done(true);
-      // }
+      validate: function(input) {
+        var done = this.async();
+        if (input.search(/\d+\.\d+\.\d+(\.\d+)?(\-.*)?/i)!=0) {
+          done("You need to provide a version such as 1.2.3.4 or 1.2.3.4-pre");
+          return;
+        }
+        // Pass the return value in the done callback
+        done(true);
+      }
     }
    ,{
       type: 'input',
